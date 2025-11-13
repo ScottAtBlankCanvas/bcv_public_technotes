@@ -61,12 +61,15 @@ mv FFmpeg FFmpeg.whisper
 cd FFmpeg.whisper
 
 # Mac does not like to modify /usr so change prefix to /usr/local
+# note add srt
+
 ./configure --prefix=/usr/local --enable-version3 --disable-shared --enable-gpl \
   --enable-nonfree --enable-static --enable-pthreads --enable-filters \
   --enable-openssl --enable-runtime-cpudetect --enable-libvpx --enable-libx264 \
   --enable-libx265 --enable-libspeex --enable-libfreetype --enable-fontconfig \
   --enable-libzimg --enable-libvorbis --enable-libwebp --enable-libfribidi \
-  --enable-libharfbuzz --enable-libpulse --enable-libass --enable-whisper
+  --enable-libharfbuzz --enable-libpulse --enable-libass --enable-whisper \
+  --enable-libsrt
 make
 sudo make install
 
@@ -78,7 +81,7 @@ ffmpeg --help filter=whisper
 
 ## Running
 
-ffprobe.  Need to turn off gpu (use_gpu=0) and use a different file 
+ffprobe.  Need to turn off gpu (use_gpu=0) and use a different file
 ```nix
 ffprobe -select_streams a -print_format compact -show_frames \
 -show_entries 'frame_tags=lavfi.whisper.text,lavfi.whisper.duration' \
@@ -110,4 +113,4 @@ ffmpeg -loglevel warning -re -i https://livecmaftest1.akamaized.net/cmaf/live/20
 ## Next Steps
 
 1. Send in rtmp, pull out audio and do live trancribe
-2. 
+2.

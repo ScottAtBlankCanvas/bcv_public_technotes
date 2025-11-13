@@ -20,6 +20,9 @@ Building filters:
 
 - https://fossies.org/linux/ffmpeg/doc/writing_filters.txt
 - https://wiki.multimedia.cx/index.php/FFmpeg_filter_HOWTO
+- https://cldfire.dev/blog/writing-an-opencl-filter-for-ffmpeg/
+- https://medium.com/@rafaelgalle1/building-a-custom-scalable-audio-transcription-pipeline-whisper-pyannote-ffmpeg-d0f03f884330
+
 
 vf_scale example
 
@@ -76,3 +79,34 @@ pull jrottenberg/ffmpeg:4.4-ubuntu
 
 Use github script to build ffmpeg inside docker: https://github.com/srwareham/docker-ffmpeg-compiler
 
+## Building with libav*
+
+### Using boost on MacOS
+
+I downloaded local version of boost inside my project
+
+Boost not built with clang by default, so
+
+https://stackoverflow.com/questions/8486077/how-to-compile-link-boost-with-clang-libc
+
+Make sure stdlib and std match what it is used whereever boost is being usedcd ..
+:
+
+```nix
+cd boost*
+./bootstrap.sh --with-toolset=clang
+./b2 clean
+./b2 toolset=clang cxxflags="-std=c++14 -stdlib=libc++" linkflags="-stdlib=libc++"
+```
+
+Also need to build project with clang
+
+## SRT and ffmpeg
+
+https://srtlab.github.io/srt-cookbook/apps/ffmpeg.html
+
+Restream VOD as SRT:
+
+```nix
+ffmpeg -i ~/sample.mp4 -c copy -f mpegts srt://<ip>:<port>
+```

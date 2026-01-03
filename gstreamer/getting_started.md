@@ -12,11 +12,9 @@
 
 
 
-# Installing Binaries
+## Installing Binaries (MacOS)
 
-## MacOS Install
-
-### Installing on Mac (cleaning up)
+### Installing on Mac (problems and cleaning up)
 
 - Tried following the [official Mac install docs](https://gstreamer.freedesktop.org/documentation/installing/on-mac-osx.html?gi-language=c)
   - Although most people online said to use homebrew
@@ -77,7 +75,7 @@ brew uninstall --ignore-dependencies gstreamer glib gobject-introspection
 which gst-launch-1.0
 ```
 
-- OK, now install the (runtime pkg file)[https://gstreamer.freedesktop.org/download/#macos]
+- OK, now install just the (runtime pkg file)[https://gstreamer.freedesktop.org/download/#macos]
 - Does not add to path, so try with explicit path:
 ```
 # Plays video!
@@ -87,13 +85,14 @@ which gst-launch-1.0
 
 - Even tho it plays, I do get this error:
 ** (gst-plugin-scanner:29788): CRITICAL **: 09:55:54.343: pygobject initialization failed: could not import gobject (error was: ModuleNotFoundError("No module named 'gi'"))
+- Of course, missing glib and gobject:
 
 ```
 # Provide missing glib and gobject
 brew install glib gobject-introspection
 ```
 
-- Running with no error!!
+- Try again... running with no error!!
 
 
 ## Setting up Dev Environment

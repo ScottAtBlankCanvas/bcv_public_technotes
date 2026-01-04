@@ -96,3 +96,55 @@ brew install glib gobject-introspection
 
 
 ## Setting up Dev Environment
+
+Following [these instructions](https://gstreamer.freedesktop.org/documentation/installing/on-mac-osx.html?gi-language=c)
+
+### Using develop binary
+
+- OK, now install just the (develop pkg file)[https://gstreamer.freedesktop.org/download/#macos]
+
+- Clone gst-docs subproject
+
+```
+cd ~/code/gstreamer/
+git clone https://gitlab.freedesktop.org/gstreamer/gstreamer.git
+cd subprojects/gst-docs
+```
+
+## Hello world
+
+Let's try to compile a simple hello world.  [here](https://gstreamer.freedesktop.org/documentation/installing/on-mac-osx.html?gi-language=c)
+
+- First we need to add the packages to pkg-config and put things on the PATH
+```
+export PKG_CONFIG_PATH="/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig:$PKG_CONFIG_PATH"
+export PATH="/Library/Frameworks/GStreamer.framework/Versions/1.0/bin:$PATH"
+# Also potentially needed for linking:
+export DYLD_FALLBACK_LIBRARY_PATH="/Library/Frameworks/GStreamer.framework/Libraries"
+```
+
+Created main.c per the example (and added a printf)
+```
+#include <stdio.h>
+#include <gst/gst.h>
+
+int main(int argc, char *argv[])
+{
+  gst_init(NULL, NULL);
+
+  printf("main: hello world!\n");
+
+  return 0;
+}
+```
+
+Compile, link, and run:
+```
+clang -c main.c -o main.o `pkg-config --cflags gstreamer-1.0`
+clang -o main main.o `pkg-config --libs gstreamer-1.0`
+otool -L main
+# runs
+./main
+```
+
+## Simple video Player
